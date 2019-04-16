@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import model.BoardState;
 import model.Chessman;
+import model.ComputerPlayer;
 import model.HumanPlayer;
 import model.IPlayer;
 import view.Viewer;
@@ -14,42 +15,77 @@ public class Controller {
 	public IPlayer player1, player2;
 	public IPlayer currentTurn;
 
+	/**
+	 * play 1vs1
+	 */
 	public Controller(BoardState board, Viewer view) {
 		super();
 		this.view = view;
 		this.board = board;
-		this.player1 = new HumanPlayer(1, board);
-		this.player2 = new HumanPlayer(2, board);
+		this.player1 = new HumanPlayer(board);
+		this.player2 = new HumanPlayer(board);
 		this.currentTurn = player1;
+	}
+	
+	/**
+	 * play with computer
+	 */
+	public Controller(Viewer view) {
+		this.view = view;
+		this.board = view.board;
+		this.player1 = new HumanPlayer(board);
+		this.player2 = new ComputerPlayer(board);
 	}
 	
 	public void run() {
 		updateView();
-		int result;
-		while ((result = checkEnd()) == 0) {
+		boolean isEnd = false;
+		Chessman chessman;
+		while (!isOver()) {
 			view.showTurn();
 			try {
-				oneTurn(view.getChessman());
+				chessman = view.getChessman();
+				oneTurn(chessman);
+				isEnd = checkEndForPlayer(currentTurn, chessman);
+				changeTurn();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			if (isEnd) {
+				changeTurn();
+				showWinner(currentTurn);
+				break;
+			}
 		}
-		changeTurn();
-		showResult(result);
+		if (!isEnd) {
+			view.showMsg("nobody wins!");
+		}
+		
 		try {
 			view.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-
+	
+	public boolean isOver() {
+		return board.isOver();
+	}
+	
+	public void showWinner(IPlayer player) {
+		view.showMsg(player.getClass().getSimpleName()+player.getId()+" wins!");
+	}
+	
 	public void oneTurn(Chessman c) {
 		if (c == null || !move(c)) {
 			view.showMsg("invalid move!");
 			return;
 		}
-		changeTurn();
 		updateView();
+	}
+	
+	public boolean checkEndForPlayer(IPlayer player, Chessman chessman) {
+		return board.checkEndForOnePlayer(player, chessman);
 	}
 
 	public boolean move(Chessman c) {
@@ -61,14 +97,6 @@ public class Controller {
 			currentTurn = player2;
 		else
 			currentTurn = player1;
-	}
-
-	public int checkEnd() {
-		return board.checkEnd();
-	}
-
-	public void showResult(int result) {
-		view.showResult(getResult(result));
 	}
 
 	public IPlayer getResult(int result) {

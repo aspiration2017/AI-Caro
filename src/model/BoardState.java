@@ -7,6 +7,7 @@ public class BoardState {
 	public int[][] boardArr;
 	public int width;
 	public int height;
+	public static int count = 0;
 
 	public BoardState(int width, int height) {
 		boardArr = new int[width][height];
@@ -18,6 +19,7 @@ public class BoardState {
 		boardArr = new int[width][height];
 	}
 
+	/**
 	public int checkEnd() {
 		boolean player1, player2;
 		boolean runOutOfChess = true;
@@ -92,7 +94,7 @@ public class BoardState {
 		}
 
 		// Check duong cheo len
-		for (int r = height-1; r > 3; r--) {
+		for (int r = height - 1; r > 3; r--) {
 			for (int c = 0; c < width - 4; c++) {
 				if (boardArr[r][c] == 0)
 					continue;
@@ -113,6 +115,97 @@ public class BoardState {
 			}
 		}
 		return runOutOfChess ? -1 : 0;
+	}
+	*/
+	
+	// kiem tra 1 player nao da thang hay chua?
+	public boolean checkEndForOnePlayer(IPlayer player, Chessman chessman) {
+		boolean isWin;
+		int row = chessman.x;
+		int col = chessman.y;
+
+		int rowStart = (row - 5) >= 0 ? row - 5 : 0;
+		int rowEnd = (row + 5) < height ? row + 5 : height;
+		int colStart = (col - 5) >= 0 ? col - 5 : 0;
+		int colEnd = (col + 5) < width ? col + 5 : width;
+
+		// kiem tra hang doc
+		for (int r = rowStart; r < rowEnd - 4; r++) {
+			for (int c = colStart; c < colEnd; c++) {
+				if (boardArr[r][c] == 0) {
+					continue;
+				}
+				isWin = true;
+				for (int i = 0; i < 5; i++) {
+					if (boardArr[r + i][c] != chessman.playerID) {
+						isWin = false;
+						break;
+					}
+				}
+				if (isWin)
+					return true;
+			}
+		}
+
+		// kiem tra hang ngang
+		for (int r = rowStart; r < rowEnd; r++) {
+			for (int c = colStart; c < colEnd - 4; c++) {
+				if (boardArr[r][c] == 0) {
+					continue;
+				}
+				isWin = true;
+				for (int i = 0; i < 5; i++) {
+					if (boardArr[r][c + i] != chessman.playerID) {
+						isWin = false;
+						break;
+					}
+				}
+				if (isWin)
+					return true;
+			}
+		}
+
+		// kiem tra hang cheo xuong
+		for (int r = rowStart; r < rowEnd - 4; r++) {
+			for (int c = colStart; c < colEnd - 4; c++) {
+				if (boardArr[r][c] == 0) {
+					continue;
+				}
+				isWin = true;
+				for (int i = 0; i < 5; i++) {
+					if (boardArr[r + i][c + i] != chessman.playerID) {
+						isWin = false;
+						break;
+					}
+				}
+				if (isWin)
+					return true;
+			}
+		}
+
+		// kiem tra hang cheo len
+		for (int r = rowEnd-1; r > 3; r--) {
+			for (int c = 0; c < colEnd - 4; c++) {
+				if (boardArr[r][c] == 0) {
+					continue;
+				}
+				isWin = true;
+				for (int i = 0; i < 5; i++) {
+					if (boardArr[r - i][c + i] != chessman.playerID) {
+						isWin = false;
+						break;
+					}
+				}
+				if (isWin)
+					return true;
+			}
+		}
+		return false;
+	}
+
+	// kiem tra het ban co
+	public boolean isOver() {
+		return count == width * height;
 	}
 
 	// set trang thai cho 1 quan co xac dinh

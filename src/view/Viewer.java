@@ -12,9 +12,9 @@ import model.Chessman;
 import model.IPlayer;
 
 public class Viewer {
-	Controller controll;
-	BoardState board;
-	BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+	public Controller controll;
+	public BoardState board;
+	public BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	
 	public Viewer(BoardState board) {
 		super();

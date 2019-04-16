@@ -2,20 +2,22 @@ package model;
 
 public class HumanPlayer implements IPlayer {
 	int id;
-	BoardState boardArr;
+	BoardState board;
+	public static int count = 0;
 
-	public HumanPlayer(int id, BoardState boardArr) {
+	public HumanPlayer(BoardState boardArr) {
 		super();
-		this.id = id;
-		this.boardArr = boardArr;
+		this.id = ++count;
+		this.board = boardArr;
 	}
 
 	@Override
 	public boolean move(Chessman chessman) {
-		if (!boardArr.isValid(chessman)) {
+		if (!board.isValid(chessman)) {
 			return false;
 		}
-		boardArr.setPosition(chessman);
+		board.setPosition(chessman);
+		board.count++;
 		return true;
 	}
 
