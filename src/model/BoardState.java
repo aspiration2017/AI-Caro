@@ -7,7 +7,7 @@ public class BoardState {
 	public int[][] boardArr;
 	public int width;
 	public int height;
-	public static int count = 0;
+	public int count = 0;
 
 	public BoardState(int width, int height) {
 		boardArr = new int[width][height];
@@ -16,6 +16,7 @@ public class BoardState {
 	}
 
 	public void resetBoard() {
+		count = 0;
 		boardArr = new int[width][height];
 	}
 

@@ -3,11 +3,11 @@ package model;
 public class HumanPlayer implements IPlayer {
 	int id;
 	BoardState board;
-	public static int count = 0;
+	public static int countId = 0;
 
 	public HumanPlayer(BoardState boardArr) {
 		super();
-		this.id = ++count;
+		this.id = ++countId;
 		this.board = boardArr;
 	}
 
