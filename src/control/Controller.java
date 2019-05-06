@@ -22,7 +22,10 @@ public class Controller {
 		currentTurn = player1;
 	}
 
-	public void oneTurn(Chessman c) {
+	/**
+	 * turn player
+	 */
+	public void oneTurnHuman(Chessman c) {
 		if (move(c)) {
 			if (checkEndForPlayer(currentTurn, c)) 
 				winner = currentTurn;
@@ -31,6 +34,15 @@ public class Controller {
 			if (isOver()) 
 				showWinner();
 		}
+	}
+	
+	/**
+	 * turn computer
+	 */
+	public void oneTurnComputer() {
+		// TODO Auto-generated method stub
+		System.out.println("computer's turn!");
+		changeTurn();
 	}
 
 	public boolean checkEndForPlayer(IPlayer player, Chessman chessman) {

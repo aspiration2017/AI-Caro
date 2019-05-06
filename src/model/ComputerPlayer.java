@@ -17,8 +17,7 @@ public class ComputerPlayer implements IPlayer {
 
 	@Override
 	public int getId() {
-		// TODO Auto-generated method stub
-		return 0;
+		return id;
 	}
 
 
