@@ -26,6 +26,9 @@ public class BoardView extends JPanel {
 	Controller controll = new Controller(this);
 	static Image x;
 	static Image o;
+	boolean isPlayWithBot = false;
+	boolean isStarted = false;
+	boolean isEnd = false;
 	static {
 		try {
 			x = ImageIO.read(new File("x.png"));
@@ -36,7 +39,6 @@ public class BoardView extends JPanel {
 	}
 
 	public BoardView() {
-		playWithHuman();
 		setSize(400, 400);
 		
 		addMouseListener(new MouseListener() {
@@ -46,7 +48,8 @@ public class BoardView extends JPanel {
 			
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				oneTurn(arg0);
+				if (isStarted) 
+					oneTurn(arg0);
 			}
 			
 			@Override
@@ -67,26 +70,32 @@ public class BoardView extends JPanel {
 	public void paint(Graphics g) {
 		super.paint(g);
 		g.setColor(Color.black);
-
-		for (int i = 0; i < 20; i++) {
-			for (int j = 0; j < 20; j++) {
-				g.setColor(Color.gray);
-				g.drawRect(i * 20, j * 20, 20, 20);
+		if (isStarted) {
+			for (int i = 0; i < 20; i++) {
+				for (int j = 0; j < 20; j++) {
+					g.setColor(Color.gray);
+					g.drawRect(i * 20, j * 20, 20, 20);
+				}
 			}
-		}
-		for (int i = 0; i < boardState.boardArr.length; i++) {
-			for (int j = 0; j < boardState.boardArr[i].length; j++) {
-				if (boardState.boardArr[i][j] == controll.player1.getId())
-					g.drawImage(o, i*20, j*20, null);
-				if (boardState.boardArr[i][j] == controll.player2.getId())
-					g.drawImage(x, i*20, j*20, null);
+			for (int i = 0; i < boardState.boardArr.length; i++) {
+				for (int j = 0; j < boardState.boardArr[i].length; j++) {
+					if (boardState.boardArr[i][j] == controll.player1.getId())
+						g.drawImage(o, i*20, j*20, null);
+					if (boardState.boardArr[i][j] == controll.player2.getId())
+						g.drawImage(x, i*20, j*20, null);
+				}
 			}
 		}
 	}
 	
 	public void oneTurn(MouseEvent e) {
 		Chessman chessman = getChessman(e);
-		controll.oneTurn(chessman);
+		controll.oneTurnHuman(chessman);
+		if (isPlayWithBot && !isEnd)
+			controll.oneTurnComputer();
+		if (isEnd) 
+			isEnd = false;
+		
 	}
 	
 	public Chessman getChessman(MouseEvent e) {
@@ -95,10 +104,14 @@ public class BoardView extends JPanel {
 	
 	public void playWithHuman() {
 		controll.player2 = new HumanPlayer(boardState);
+		isPlayWithBot = false;
+		isStarted = true;
 	}
 	
 	public void playWithComputer() {
 		controll.player2 = new ComputerPlayer(boardState);
+		isPlayWithBot = true;
+		isStarted = true;
 	}
 
 	public void gameOver() {
@@ -110,8 +123,13 @@ public class BoardView extends JPanel {
 		
 		int intOption = JOptionPane.showConfirmDialog(null, msg, "Game over!", 1);
 		if (intOption == JOptionPane.YES_OPTION) {
-			controll.reset();
+			resetGame();
 		} else
 			System.exit(0);
+	}
+	
+	public void resetGame() {
+		controll.reset();
+		isEnd = true;
 	}
 }
