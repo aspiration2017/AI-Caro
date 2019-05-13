@@ -91,10 +91,8 @@ public class BoardView extends JPanel {
 	public void oneTurn(MouseEvent e) {
 		Chessman chessman = getChessman(e);
 		controll.oneTurnHuman(chessman);
-		if (isPlayWithBot && !isEnd)
+		if (isPlayWithBot && controll.currentTurn != controll.player1)
 			controll.oneTurnComputer();
-		if (isEnd) 
-			isEnd = false;
 		
 	}
 	
@@ -130,6 +128,5 @@ public class BoardView extends JPanel {
 	
 	public void resetGame() {
 		controll.reset();
-		isEnd = true;
 	}
 }

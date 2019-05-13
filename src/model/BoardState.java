@@ -185,8 +185,8 @@ public class BoardState {
 		}
 
 		// kiem tra hang cheo len
-		for (int r = rowEnd-1; r > 3; r--) {
-			for (int c = 0; c < colEnd - 4; c++) {
+		for (int r = rowEnd-1; r > rowStart + 3; r--) {
+			for (int c = colStart; c < colEnd - 4; c++) {
 				if (boardArr[r][c] == 0) {
 					continue;
 				}

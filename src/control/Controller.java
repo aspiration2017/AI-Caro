@@ -33,6 +33,7 @@ public class Controller {
 			updateView();
 			if (isOver()) 
 				showWinner();
+			
 		}
 	}
 	
@@ -74,7 +75,7 @@ public class Controller {
 	
 	public void reset() {
 		boardState.resetBoard();
-		currentTurn = player1;
+//		currentTurn = player1;
 		winner = null;
 		updateView();
 	}
