@@ -8,6 +8,7 @@ public class BoardState {
 	public int width;
 	public int height;
 	public int count = 0;
+	public Chessman lastMove = null;
 
 	public BoardState(int width, int height) {
 		boardArr = new int[width][height];

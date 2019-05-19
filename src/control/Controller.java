@@ -2,6 +2,7 @@ package control;
 
 import model.BoardState;
 import model.Chessman;
+import model.ComputerPlayer;
 import model.HumanPlayer;
 import model.IPlayer;
 import view.BoardView;
@@ -41,9 +42,19 @@ public class Controller {
 	 * turn computer
 	 */
 	public void oneTurnComputer() {
-		// TODO Auto-generated method stub
-		System.out.println("computer's turn!");
+		if (boardState.count == 0) {
+			player2.move(new Chessman(9, 9, player2.getId()));
+			changeTurn();
+			return;
+		}
+		Chessman c = player2.getProfitableMove(player1.getId());
+		player2.move(c);
+		if (checkEndForPlayer(currentTurn, c)) 
+			winner = currentTurn;
 		changeTurn();
+		updateView();
+		if (isOver()) 
+			showWinner();
 	}
 
 	public boolean checkEndForPlayer(IPlayer player, Chessman chessman) {
@@ -75,9 +86,16 @@ public class Controller {
 	
 	public void reset() {
 		boardState.resetBoard();
-//		currentTurn = player1;
+		if (winner instanceof ComputerPlayer)
+			player2.move(new Chessman(9, 9, player2.getId()));
 		winner = null;
 		updateView();
+	}
+	
+	public void playWithComputer() {
+		player2 = new ComputerPlayer(boardState);
+		player2.move(new Chessman(9, 9, player2.getId()));
+		currentTurn = player1;
 	}
 
 }

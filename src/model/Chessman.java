@@ -1,7 +1,7 @@
 package model;
 
 public class Chessman {
-	int x, y, playerID;
+	public int x, y, playerID;
 
 	public Chessman(int x, int y, int player) {
 		super();

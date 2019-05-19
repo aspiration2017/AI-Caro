@@ -17,6 +17,7 @@ public class HumanPlayer implements IPlayer {
 			return false;
 		}
 		board.setPosition(chessman);
+		board.lastMove = chessman;
 		board.count++;
 		return true;
 	}
@@ -24,5 +25,11 @@ public class HumanPlayer implements IPlayer {
 	@Override
 	public int getId() {
 		return id;
+	}
+
+	@Override
+	public Chessman getProfitableMove(int idCompetitor) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

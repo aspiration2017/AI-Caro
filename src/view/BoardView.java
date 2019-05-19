@@ -15,7 +15,6 @@ import javax.swing.JPanel;
 import control.Controller;
 import model.BoardState;
 import model.Chessman;
-import model.ComputerPlayer;
 import model.HumanPlayer;
 
 public class BoardView extends JPanel {
@@ -69,6 +68,10 @@ public class BoardView extends JPanel {
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
+		if (boardState.lastMove != null) {
+			g.setColor(new Color(255, 153, 153));
+			g.fillRect(boardState.lastMove.x*20, boardState.lastMove.y*20, 20, 20);
+		}
 		g.setColor(Color.black);
 		if (isStarted) {
 			for (int i = 0; i < 20; i++) {
@@ -102,12 +105,13 @@ public class BoardView extends JPanel {
 	
 	public void playWithHuman() {
 		controll.player2 = new HumanPlayer(boardState);
+		controll.currentTurn = controll.player1;
 		isPlayWithBot = false;
 		isStarted = true;
 	}
 	
 	public void playWithComputer() {
-		controll.player2 = new ComputerPlayer(boardState);
+		controll.playWithComputer();
 		isPlayWithBot = true;
 		isStarted = true;
 	}

@@ -33,8 +33,8 @@ public class Viewer extends JFrame{
 		onePlayer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				boardView.playWithComputer();
 				boardView.resetGame();
+				boardView.playWithComputer();
 			}
 		});
 		
