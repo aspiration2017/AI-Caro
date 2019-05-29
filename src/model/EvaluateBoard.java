@@ -27,17 +27,21 @@ public class EvaluateBoard {
 				count5B4C = check5Boxes4Check(boardState, idPlayer1, i, j);
 				count3B = check3Boxes(boardState, idPlayer1, i, j);
 				count2B = check2Boxes(boardState, idPlayer1, i, j);
-				if (count5B > 0) // win
+				if (count5B > 0) { // win
 					scoreBoard[i][j] += 999999;
-				if (count4BF2H > 0 || (count4B > 0 && count4B3CF2H > 0) || (count4B > 0 && count3BF2H > 0) 
+					break;
+				}
+				if (count4BF2H > 0)
+					scoreBoard[i][j] += 500000;
+				if ((count4B > 0 && count4B3CF2H > 0) || (count4B > 0 && count3BF2H > 0) 
 						|| (count4B + count5B4C > 1) || (count5B4C > 0 && count3BF2H > 0) || (count5B4C > 0 && count4B3CF2H > 0)) 
 					scoreBoard[i][j] += 100000;
 				if (count3BF2H + count4B3CF2H > 1)
 					scoreBoard[i][j] += 30000;
 				if (count4B > 0)
-					scoreBoard[i][j] += 45000;
+					scoreBoard[i][j] += 40000;
 				if (count5B4C > 0)
-					scoreBoard[i][j] += 2001;
+					scoreBoard[i][j] += 39091;
 				if (count3BF2H > 0)
 					scoreBoard[i][j] += 2500;
 				if (count4B3CF2H > 0)
@@ -60,7 +64,7 @@ public class EvaluateBoard {
 					scoreBoard[i][j] += 900000;
 				if ((count4B > 0 && count4B3CF2H > 0) || (count4B > 0 && count3BF2H > 0) 
 						|| (count4B + count5B4C > 1) || (count5B4C > 0 && count3BF2H > 0) || (count5B4C > 0 && count4B3CF2H > 0)) 
-					scoreBoard[i][j] += 50000;
+					scoreBoard[i][j] += 90000;
 				if (count3BF2H + count4B3CF2H > 1)
 					scoreBoard[i][j] += 8000;
 				if (count4BF2H > 0)
@@ -159,8 +163,11 @@ public class EvaluateBoard {
 					count++;
 			}
 			if (count == 4) {
-				if (board[x][i-1] == 0 && board[x][i+4] == 0)
-					result++;
+				try {
+					if (board[x][i-1] == 0 && board[x][i+4] == 0)
+						result++;
+				} catch (Exception e) {
+				}
 			}
 		}
 
@@ -172,8 +179,11 @@ public class EvaluateBoard {
 					count++;
 			}
 			if (count == 4) {
-				if (board[i-1][y] == 0 && board[i+4][y] == 0)
-					result++;
+				try {
+					if (board[i-1][y] == 0 && board[i+4][y] == 0)
+						result++;
+				} catch (Exception e) {
+				}
 			}
 		}
 		
@@ -199,8 +209,11 @@ public class EvaluateBoard {
 					count++;
 			}
 			if (count == 4) {
-				if (board[r+1][c-1] == 0 && board[r-4][c+4] == 0)
-					result++;
+				try {
+					if (board[r+1][c-1] == 0 && board[r-4][c+4] == 0)
+						result++;
+				} catch (Exception e) {
+				}
 			}
 		}
 		
@@ -224,8 +237,11 @@ public class EvaluateBoard {
 					count++;
 			}
 			if (count == 4) {
-				if (board[r-1][c-1] == 0 && board[r+4][c+4] == 0)
-					result++;
+				try {
+					if (board[r-1][c-1] == 0 && board[r+4][c+4] == 0)
+						result++;
+				} catch (Exception e) {
+				}
 			}
 		}
 
@@ -252,16 +268,16 @@ public class EvaluateBoard {
 					break;
 				}
 				if (count == 4) {
-					if (i - 1 >= 0) 
+					try {
 						if (board[x][i-1] == 0) {
 							result++;
 							break;
-						}
-					if ( i + 4 < board.length) 
-						if (board[x][i+4] == 0) {
+						} else if (board[x][i+4] == 0) {
 							result++;
 							break;
 						}
+					} catch (Exception e) {
+					}
 				}
 			}
 		}
@@ -277,16 +293,16 @@ public class EvaluateBoard {
 					break;
 				}
 				if (count == 4) {
-					if (i - 1 >= 0) 
+					try {
 						if (board[i-1][y] == 0) {
 							result++;
 							break;
-						} 
-					if (i + 4 < board.length) 
-						if (board[i+4][y] == 0) {
+						} else if (board[i+4][y] == 0) {
 							result++;
 							break;
 						}
+					} catch (Exception e) {
+					}	
 				}
 			}
 		}
@@ -302,16 +318,16 @@ public class EvaluateBoard {
 					break;
 				}
 				if (count == 4) {
-					if (r + 1 < board.length && c - 1 >= 0) 
+					try {
 						if (board[r+1][c-1] == 0) {
 							result++;
 							break;
-						} 
-					if (r - 4 >= 0 && c + 4 < board.length) 
-						if (board[r-4][c+4] == 0) {
+						} else if (board[r-4][c+4] == 0) {
 							result++;
 							break;
 						}
+					} catch (Exception e) {
+					}
 				}
 			}
 		}
@@ -327,16 +343,16 @@ public class EvaluateBoard {
 					break;
 				}
 				if (count == 4) {
-					if (r - 1 >= 0 && c - 1 >= 0) 
+					try {
 						if (board[r-1][c-1] == 0) {
 							result++;
 							break;
-						} 
-					if (r + 4 < board.length && c + 4 < board.length)
-						if (board[r+4][c+4] == 0) {
+						} else if (board[r+4][c+4] == 0) {
 							result++;
 							break;
 						}
+					} catch (Exception e) {
+					}
 				}
 			}
 		}
@@ -363,7 +379,7 @@ public class EvaluateBoard {
 					break;
 				}
 				if (count == 4 && board[x][i + 4] == idPlayer && board[x][i] == idPlayer)
-					result++;
+						result++;
 			}
 		}
 
@@ -378,14 +394,13 @@ public class EvaluateBoard {
 					break;
 				}
 				if (count == 4 && board[i + 4][y] == idPlayer && board[i][y] == idPlayer)
-					result++;
+						result++;
 			}
 		}
 
 		// kiem tra hang cheo len
 		for (int r = x + y <= rowEnd ? x + y : rowEnd, c = colStart; r >= rowStart + 4 && c <= colEnd - 4; r--, c++) {
 			count = 0;
-			System.out.println(r + ":"+c);
 			for (int j = 0; j < 5; j++) {
 				if (board[r - j][c + j] == idPlayer)
 					count++;
@@ -394,9 +409,8 @@ public class EvaluateBoard {
 					break;
 				}
 				if (count == 4 && board[r - 4][c + 4] == idPlayer && board[r][c] == idPlayer)
-					result++;
+						result++;
 			}
-			System.out.println(result);
 		}
 
 		// kiem tra hang cheo xuong
@@ -410,7 +424,7 @@ public class EvaluateBoard {
 					break;
 				}
 				if (count == 4 && board[r + 4][c + 4] == idPlayer && board[r][c] == idPlayer)
-					result++;
+						result++;
 			}
 		}
 		return result;
@@ -449,13 +463,12 @@ public class EvaluateBoard {
 				}
 			}
 			if (count == 3) {
-				if (first - 2 >= 0) {
+				try {
 					if (board[x][first-1] == 0 && board[x][last+1] == 0 && board[x][first-2] == 0)
 						result++;
-				}
-				else if (last + 2 <= board.length) {
-					if (board[x][first-1] == 0 && board[x][last+1] == 0 && board[x][last+2] == 0)
+					else if (board[x][first-1] == 0 && board[x][last+1] == 0 && board[x][last+2] == 0)
 						result++;
+				} catch (Exception e) {
 				}
 			break;
 			}
@@ -480,16 +493,14 @@ public class EvaluateBoard {
 				}
 			}
 			if (count == 3) {
-				if (first - 2 >= 0) {
+				try {
 					if (board[first-1][y] == 0 && board[last+1][y] == 0 && board[first-2][y] == 0)
 						result++;
-					break;
-				}
-				else if (last + 2 <= board.length) {
-					if (board[first-1][y] == 0 && board[last+1][y] == 0 && board[last+2][y] == 0)
+					else if (board[first-1][y] == 0 && board[last+1][y] == 0 && board[last+2][y] == 0)
 						result++;	
-					break;
+				} catch (Exception e) {
 				}
+				break;
 			}
 		}
 		// hang cheo len
@@ -526,13 +537,12 @@ public class EvaluateBoard {
 				}
 			}
 			if (count == 3) {
-				if (r + 2 <= board.length && c - 2 >= 0) {
+				try {
 					if (board[r+1][c-1] == 0 && board[r+2][c-2] == 0 && board[r-3][c+3] == 0)
 						result++;
-				}
-				else if (r - 4 >= 0 && c + 4 <= board.length) {
-					if (board[r-3][c+3] == 0 && board[r-4][c+4] == 0 && board[r+1][c-1] == 0)
+					else if (board[r-3][c+3] == 0 && board[r-4][c+4] == 0 && board[r+1][c-1] == 0)
 						result++;
+				} catch (Exception e) {
 				}
 				break;
 			}
@@ -570,13 +580,12 @@ public class EvaluateBoard {
 				}
 			}
 			if (count == 3) {
-				if (r - 2 >= 0 && c - 2 >= 0) {
+				try {
 					if (board[r-1][c-1] == 0 && board[r-2][c-2] == 0 && board[r+3][c+3] == 0)
 						result++;
-				}
-				else if (r + 4 <= board.length && c + 4 <= board.length) {
-					if (board[r+3][c+3] == 0 && board[r+4][c+4] == 0 && board[r-1][c-1] == 0)
+					else if (board[r+3][c+3] == 0 && board[r+4][c+4] == 0 && board[r-1][c-1] == 0)
 						result++;
+				} catch (Exception e) {
 				}
 				break;
 			}
@@ -607,9 +616,11 @@ public class EvaluateBoard {
 					break;
 			}
 			if (count == 3 && board[x][i + 3] == idPlayer && board[x][i] == idPlayer) {
-				if (i - 1 >= 0 && i + 4 < board.length)
+				try {
 					if (board[x][i-1] == 0 && board[x][i+4] == 0)
 						result++;
+				} catch (Exception e) {
+				}
 				break;
 			}
 		}
@@ -623,9 +634,11 @@ public class EvaluateBoard {
 					break;
 			}
 			if (count == 3 && board[i+3][y] == idPlayer && board[i][y] == idPlayer) {
-				if (i - 1 >= 0 && i + 4 < board.length)
+				try {
 					if (board[i-1][y] == 0 && board[i+4][y] == 0)
 						result++;
+				} catch (Exception e) {
+				}
 				break;
 			}
 		}
@@ -653,9 +666,11 @@ public class EvaluateBoard {
 					break;
 			}
 			if (count == 3 && board[r][c] == idPlayer && board[r-3][c+3] == idPlayer) {
-				if (r - 4 >= 0 && c + 4 < board.length && r + 1 < board.length && c - 1 >= 0)
+				try {
 					if (board[r-4][c+4] == 0 && board[r + 1][c-1] == 0)
 						result++;
+				} catch (Exception e) {
+				}
 				break;
 			}
 		}
@@ -682,9 +697,11 @@ public class EvaluateBoard {
 					break;
 			}
 			if (count == 3 && board[r][c] == idPlayer && board[r+3][c+3] == idPlayer) {
-				if (r-1 >= 0 && c - 1 >= 0 && r + 4 < board.length && c + 4 < board.length)
+				try {
 					if (board[r-1][c-1] == 0 && board[r+4][c+4] == 0)
 						result++;
+				} catch (Exception e) {
+				}
 				break;
 			}
 		}
@@ -703,7 +720,6 @@ public class EvaluateBoard {
 		int colEnd = y + 2 < board[0].length ? y + 2 : board[0].length-1;
 
 		// kiem tra hang ngang
-		int first, last;
 		for (int i = colStart; i <= colEnd - 2; i++) {
 			count = 0; 
 			for (int j = 0; j < 3; j++) {
@@ -716,9 +732,8 @@ public class EvaluateBoard {
 			if (count == 3) {
 				try {
 					if ((board[x][i-1] == 0 && board[x][i-2]==0) || (board[x][i+3] == 0 && board[x][i+4] == 0)) 
-							result++;
+						result++;
 				} catch (Exception e) {
-					System.out.println(e.getMessage());
 				}
 				break;
 			}
@@ -736,9 +751,8 @@ public class EvaluateBoard {
 			if (count == 3) {
 				try {
 					if ((board[i-1][y] == 0 && board[i-2][y]==0) || (board[i+3][y] == 0 && board[i+4][y] == 0)) 
-							result++;
+						result++;
 				} catch (Exception e) {
-					System.out.println(e.getMessage());
 				}
 				break;
 			}
@@ -756,9 +770,8 @@ public class EvaluateBoard {
 			if (count == 3) {
 				try {
 					if ((board[r +1 ][c - 1] == 0 && board[r + 2][c - 2]==0) || (board[r - 3][c + 3] == 0 && board[r - 4][c + 4] == 0)) 
-							result++;
+						result++;
 				} catch (Exception e) {
-					System.out.println(e.getMessage());
 				}
 				break;
 			}
@@ -776,9 +789,8 @@ public class EvaluateBoard {
 			if (count == 3) {
 				try {
 					if ((board[r - 1][c - 1] == 0 && board[r - 2][c - 2]==0) || (board[r + 3][c + 3] == 0 && board[r + 4][c + 4] == 0)) 
-							result++;
+						result++;
 				} catch (Exception e) {
-					System.out.println(e.getMessage());
 				}
 				break;
 			}
@@ -800,7 +812,6 @@ public class EvaluateBoard {
 		int colEnd = y + 1 < board[0].length ? y + 1 : board[0].length-1;
 
 		// kiem tra hang ngang
-		int first, last;
 		for (int i = colStart; i <= colEnd - 1; i++) {
 			count = 0;
 			for (int j = 0; j < 2; j++) {
@@ -814,7 +825,6 @@ public class EvaluateBoard {
 					if (board[x][i-1] == 0 && board[x][i+2] == 0)
 						result++;
 				} catch (Exception e) {
-					System.out.println(e.getMessage());
 				}
 				break;
 			}
@@ -834,7 +844,6 @@ public class EvaluateBoard {
 					if (board[i-1][y] == 0 && board[i+2][y] == 0)
 						result++;
 				} catch (Exception e) {
-					System.out.println(e.getMessage());
 				}
 				break;
 			}
@@ -868,7 +877,6 @@ public class EvaluateBoard {
 					if (board[r+1][c-1] == 0 && board[r-2][c+2] == 0)
 						result++;
 				} catch (Exception e) {
-					System.out.println(e.getMessage());
 				}
 				break;
 			}
@@ -900,7 +908,6 @@ public class EvaluateBoard {
 					if (board[r-1][c-1] == 0 && board[r+2][c+2] == 0)
 						result++;
 				} catch (Exception e) {
-					System.out.println(e.getMessage());
 				}
 				break;
 			}
@@ -958,7 +965,7 @@ public class EvaluateBoard {
 //		System.out.println(check4Boxes4Check(boardState, 1, 4, 12));
 //		System.out.println(check5Boxes4Check(boardState, 1, 4, 7));
 //		System.out.println(check4Boxes3CheckFree2Head(boardState, 1, 1, 2));
-		System.out.println(check3Boxes3CheckFree2Head(boardState, 1, 6, 8));
+//		System.out.println(check3Boxes3CheckFree2Head(boardState, 1, 6, 8));
 //		System.out.println(check2Boxes(boardState, 1, 8, 4));
 	}
 
